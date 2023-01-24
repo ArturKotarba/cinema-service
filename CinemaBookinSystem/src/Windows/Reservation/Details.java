@@ -34,7 +34,7 @@ public class Details extends JFrame {
 		if(reservation.isActive() == false || reservation.isAccepted() == false ) lblNewLabel_1_1_1_1_2_1.setText("ANULOWANA");
 	}
 
-	public Details(Reservation reservation) {
+	public Details(Reservation reservation, boolean isAdmin) {
 		this.reservation = reservation;
 		setTitle("Tworzenie filmu - CinemaWorld");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,36 +88,38 @@ public class Details extends JFrame {
 		panel_4_1_1.setBounds(0, 440, 371, 47);
 		panel_1.add(panel_4_1_1);
 
-		
-		boolean isCanceled = reservation.isAccepted() == false || reservation.isActive() == false;
-		String canceledTitle = "ANULUJ";
-		
-		if (isCanceled)
-		{
-			canceledTitle = "Przywróć";
-		}
-		
-		JButton btnCancel = new JButton(canceledTitle);
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				//Common.showInfo(getContentPane(), "Rezerwacja", "Rezerwacja jest już anulowana");
-				
-				if (isCanceled) {
-					DbAdapterReservation.updateReservation(reservation.getId(), "1", "1");
-					Common.showInfo(getContentPane(), "Rezerwacja", "Przywrócono rezerwacje");
-				} else {
-					DbAdapterReservation.updateReservation(reservation.getId(), "0", "0");
-					Common.showInfo(getContentPane(), "Rezerwacja", "Anulowano rezerwacje");
-
-				}
+		if (isAdmin)
+		{	
+			boolean isCanceled = reservation.isAccepted() == false || reservation.isActive() == false;
+			String canceledTitle = "ANULUJ";
+			
+			if (isCanceled)
+			{
+				canceledTitle = "Przywróć";
 			}
-		});
-		btnCancel.setForeground(Color.BLACK);
-		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnCancel.setBackground(new Color(204, 0, 153));
-		btnCancel.setBounds(0, 9, 87, 21);
-		panel_4_1_1.add(btnCancel);
+			
+			JButton btnCancel = new JButton(canceledTitle);
+			btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					//Common.showInfo(getContentPane(), "Rezerwacja", "Rezerwacja jest już anulowana");
+					
+					if (isCanceled) {
+						DbAdapterReservation.updateReservation(reservation.getId(), "1", "1");
+						Common.showInfo(getContentPane(), "Rezerwacja", "Przywrócono rezerwacje");
+					} else {
+						DbAdapterReservation.updateReservation(reservation.getId(), "0", "0");
+						Common.showInfo(getContentPane(), "Rezerwacja", "Anulowano rezerwacje");
+						
+					}
+				}
+			});
+			btnCancel.setForeground(Color.BLACK);
+			btnCancel.setFont(new Font("Tahoma", Font.BOLD, 10));
+			btnCancel.setBackground(new Color(204, 0, 153));
+			btnCancel.setBounds(0, 9, 87, 21);
+			panel_4_1_1.add(btnCancel);
+		}
 
 		String title = "Nie Zapłacono";
 		if (reservation.isAccepted() && reservation.isActive())

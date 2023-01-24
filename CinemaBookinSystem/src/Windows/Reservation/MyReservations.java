@@ -47,6 +47,12 @@ public class MyReservations extends JFrame {
 					return Boolean.class;
 				}
 			}
+			
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return column == 6;
+		    };
 		};
 
 		table.setModel(model);
@@ -79,7 +85,7 @@ public class MyReservations extends JFrame {
 						+ halls.get(i).getMovieScreening().getMovie().getTitle()), i, 1);
 				model.setValueAt(String.valueOf(halls.get(i).getUser().getEmail()), i, 2);
 				model.setValueAt(Integer.valueOf(halls.get(i).getSeatNumber()), i, 3);
-				model.setValueAt(Boolean.valueOf(halls.get(i).isActive()), i, 4);
+				model.setValueAt(Boolean.valueOf(!halls.get(i).isActive()), i, 4);
 				model.setValueAt(Boolean.valueOf(halls.get(i).isAccepted()), i, 5);
 				model.setValueAt(false, i, 6);
 			}
@@ -92,7 +98,6 @@ public class MyReservations extends JFrame {
 		setTitle("Dostępne filmy - CinemaWorld");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1141, 548);
-		getData();
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -164,7 +169,7 @@ public class MyReservations extends JFrame {
 							setVisible(false);
 							dispose();	
 							Reservation reservation = DbAdapterReservation.getReservation(Integer.parseInt(id));
-							Details frame = new Details(reservation);
+							Details frame = new Details(reservation, false);
 							frame.setVisible(true);
 							break;
 						}
@@ -180,5 +185,6 @@ public class MyReservations extends JFrame {
 		btnDetails.setBounds(0, 56, 356, 45);
 		panel_3.add(btnDetails);
 		generateGrid();
+		getData();
 	}
 }

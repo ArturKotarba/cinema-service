@@ -137,7 +137,7 @@ public class Index extends JFrame {
 							boolean a = Common.canDeleteUser(getContentPane(), id);
 							if (a == true) {
 								model.removeRow(i);
-								getData();
+								//getData();
 								table.revalidate();
 							}
 							break;

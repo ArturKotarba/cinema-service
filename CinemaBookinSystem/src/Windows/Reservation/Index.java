@@ -158,7 +158,7 @@ public class Index extends JFrame {
 							setVisible(false);
 							dispose();	
 							Reservation reservation = DbAdapterReservation.getReservation(Integer.parseInt(id));
-							Details frame = new Details(reservation);
+							Details frame = new Details(reservation, true);
 							frame.setVisible(true);
 							break;
 						}
@@ -210,7 +210,7 @@ public class Index extends JFrame {
 					Reservation reservation = DbAdapterReservation.getReservation(Integer.parseInt(textFieldId.getText().toString()));
 					System.out.print(Integer.parseInt(textFieldId.getText()));
 					if(reservation!=null) {
-						Details frame = new Details(reservation);
+						Details frame = new Details(reservation, true);
 					frame.setVisible(true);
 					}
 					else {
