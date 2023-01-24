@@ -51,8 +51,15 @@ public class Index extends JFrame {
 					return Boolean.class;
 				}
 			}
+			
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return column == 6;
+		    };
 		};
 
+		
 		table.setModel(model);
 		model.addColumn("Id");
 		model.addColumn("Seans");
@@ -83,7 +90,7 @@ public class Index extends JFrame {
 						+ halls.get(i).getMovieScreening().getMovie().getTitle()), i, 1);
 				model.setValueAt(String.valueOf(halls.get(i).getUser().getEmail()), i, 2);
 				model.setValueAt(Integer.valueOf(halls.get(i).getSeatNumber()), i, 3);
-				model.setValueAt(Boolean.valueOf(halls.get(i).isActive()), i, 4);
+				model.setValueAt(Boolean.valueOf(!halls.get(i).isActive()), i, 4);
 				model.setValueAt(Boolean.valueOf(halls.get(i).isAccepted()), i, 5);
 				model.setValueAt(false, i, 6);
 			}

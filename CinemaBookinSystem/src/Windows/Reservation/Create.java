@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +25,11 @@ public class Create extends JFrame {
 	private JPanel contentPane;
 	private JTextField textNumberOfTickets;
 	JComboBox comboBox;
+	static List<Integer> tickets =new ArrayList<Integer>();
+	static int freeSeatsG = 0;
+	
+private static JTextField textField;
+private static String textFieldCached = "";
 
 	public Create() {
 		setTitle("Tworzenie filmu - CinemaWorld");
@@ -63,6 +71,7 @@ public class Create extends JFrame {
 		MovieScreening[] array = DbAdapterMovieScreening.selectMovieScreenings2().toArray(new MovieScreening[0]);
 
 		MovieScreeningComboBox myModel = new MovieScreeningComboBox(array);
+
 		comboBox = new JComboBox<>();
 		comboBox.setModel(myModel);
 
@@ -77,27 +86,37 @@ public class Create extends JFrame {
 		JButton btnReserve = new JButton("REZERWUJ");
 		btnReserve.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				int freeSeats = -1;
 				MovieScreening movie = (MovieScreening) comboBox.getSelectedItem();
 
 				if (textNumberOfTickets.getText().isEmpty() || movie == null) {
 					Common.showInfo(getContentPane(), "Puste pola tekstowe", "Nie wypełniono wszystkich pól");
-				} else {
-					freeSeats = DbAdapterReservation.getNumberFreeSeats(movie.getId());
-					if(freeSeats >= Integer.parseInt(textNumberOfTickets.getText())) {
-					
-					DbAdapterReservation.insertReservation(movie.getId(), Common.getUserFromContext().getId(),
-							Common.isSelected2(false), Integer.parseInt(textNumberOfTickets.getText()),
-							Common.isSelected2(true));
-	
-					Common.showInfo(getContentPane(), "Zapisano pomyślnie", "Film został zapisany pomyślnie");
 				}
-					else {
-						Common.showInfo(getContentPane(), "Brak dostępności miejsc. Obecnie jest dostępne jedynie: "+ freeSeats,"Brak dostępności miejsc");
+				else if (textFieldCached.equals(textField.getText()))
+				{
+					Common.showInfo(getContentPane(), "Prosze o zmiane miejsc", "Błędne miejsca");
+				}
+				else {
+					freeSeats = DbAdapterReservation.getNumberFreeSeats(movie.getId());
+					if (freeSeats >= Integer.parseInt(textNumberOfTickets.getText())) {
+						textFieldCached = textField.getText();
+						String seats = textFieldCached;
+						DbAdapterReservation.insertReservation(1,
+						
+				Common.getUserFromContext().getId(),
+								Common.isSelected2(true), Integer.parseInt(textNumberOfTickets.getText()),
+								Common.isSelected2(true), seats);
+
+						Common.showInfo(getContentPane(), "Zapisano pomyślnie", "Film został zapisany pomyślnie");
+					} else {
+						Common.showInfo(getContentPane(),
+								"Brak dostępności miejsc. Obecnie jest dostępne jedynie: " + freeSeats,
+								"Brak dostępności miejsc");
 					}
+				}
+
 			}
-		}});
+		});
 		btnReserve.setForeground(Color.BLACK);
 		btnReserve.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnReserve.setBackground(new Color(204, 0, 153));
@@ -120,6 +139,68 @@ public class Create extends JFrame {
 		textNumberOfTickets.setBounds(126, 9, 235, 30);
 		panel_4_1_2_1.add(textNumberOfTickets);
 
+		JButton btnWybierzMiejsca = new JButton("WYBIERZ MIEJSCE");
+		btnWybierzMiejsca.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MovieScreening movie = (MovieScreening) comboBox.getSelectedItem();
+				
+				
+				
+				
+				if (textNumberOfTickets.getText().isEmpty() || movie == null) {
+					Common.showInfo(getContentPane(), "Puste pola tekstowe", "Nie wypełniono wszystkich pól");
+				} else {
+					
+					
+					
+					
+				 freeSeatsG = DbAdapterReservation.getNumberFreeSeats(movie.getId());
+					if (freeSeatsG >= Integer.parseInt(textNumberOfTickets.getText())) {
+						String seats = textField.getText();
+						
+						SetSeats frame = new SetSeats(Integer.parseInt(textNumberOfTickets.getText()),movie.getId());
+						frame.setVisible(true);
+
+						
+					} else {
+						Common.showInfo(getContentPane(),
+								"Brak dostępności miejsc. Obecnie jest dostępne jedynie: " + freeSeatsG,
+								"Brak dostępności miejsc");
+					}
+					
+					
+					
+
+				}
+
+			}
+
+		});
+		btnWybierzMiejsca.setForeground(Color.BLACK);
+		btnWybierzMiejsca.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnWybierzMiejsca.setBackground(new Color(204, 0, 153));
+		btnWybierzMiejsca.setBounds(58, 248, 265, 45);
+		panel_1.add(btnWybierzMiejsca);
+		
+		JPanel panel_4_1_2_1_1 = new JPanel();
+		panel_4_1_2_1_1.setLayout(null);
+		panel_4_1_2_1_1.setBounds(0, 183, 371, 54);
+		panel_1.add(panel_4_1_2_1_1);
+		
+		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Numery");
+		lblNewLabel_1_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_1_1_1_1_1.setBounds(10, 12, 123, 23);
+		panel_4_1_2_1_1.add(lblNewLabel_1_1_1_1_1);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		textField.setColumns(10);
+		textField.setBounds(126, 9, 235, 30);
+		textField.setEditable(false);
+		
+		
+		panel_4_1_2_1_1.add(textField);
+
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(0, 0, 0));
 		panel_2.setBounds(10, 11, 356, 67);
@@ -141,8 +222,7 @@ public class Create extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				dispose();
-				Index frame = new Index();
-				frame.setVisible(true);
+				Common.getMainWindow(Common.getUserFromContext());
 			}
 		});
 		btnReturn.setForeground(Color.BLACK);
@@ -150,6 +230,21 @@ public class Create extends JFrame {
 		btnReturn.setBackground(new Color(204, 0, 153));
 		btnReturn.setBounds(0, 56, 356, 45);
 		panel_3.add(btnReturn);
+	}
+	public  static void UpdateTF() {
+		try {
+			String x="";
+			tickets = SetSeats.checked;
+			for(int i = 0; i<tickets.size();i++) {
+				if(i==tickets.size()-1) x=x+tickets.get(i);
+				else
+				x=x+tickets.get(i)+ "|";
+			}
+			textField.setText(x);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
 
@@ -164,4 +259,6 @@ class MovieScreeningComboBox extends DefaultComboBoxModel<MovieScreening> {
 
 		return selectedJob;
 	}
+	
+	
 }

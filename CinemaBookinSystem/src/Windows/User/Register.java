@@ -98,8 +98,9 @@ public class Register extends JFrame {
 						boolean isAdmin = false;
 
 						DbAdapterUser.insertUser(textFieldEmail.getText(), textFieldPhoneNumber.getText(),
-								textFieldPassword.getText(), Common.isAdmin(isAdmin));
-						
+								textFieldPassword.getText(), Common.isAdmin(isAdmin)
+
+						);
 						Common.showInfo(getContentPane(), "Zapisano pomyślnie",
 								"Rejestracja zakończyła się pomyślnie. Zostaniesz automatycznie zalogowany po kliknięciu OK.");
 						User user = DbAdapterUser.getUser(textFieldEmail.getText(), textFieldPassword.getText());

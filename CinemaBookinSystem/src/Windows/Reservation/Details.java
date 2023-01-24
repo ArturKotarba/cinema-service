@@ -20,7 +20,6 @@ public class Details extends JFrame {
 	private Reservation reservation;
 	MovieScreening movieScreening;
 	JLabel lbId, lblNumberOfTickets, lbTotal, lblNewLabel_1_1_1_1_2_1;
-	JButton btnPaid;
 	JTextArea txtMovie;
 
 	private void prepareFields() {
@@ -89,15 +88,28 @@ public class Details extends JFrame {
 		panel_4_1_1.setBounds(0, 440, 371, 47);
 		panel_1.add(panel_4_1_1);
 
-		JButton btnCancel = new JButton("ANULUJ");
+		
+		boolean isCanceled = reservation.isAccepted() == false || reservation.isActive() == false;
+		String canceledTitle = "ANULUJ";
+		
+		if (isCanceled)
+		{
+			canceledTitle = "Przywróć";
+		}
+		
+		JButton btnCancel = new JButton(canceledTitle);
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (reservation.isAccepted() == false || reservation.isActive() == false) {
-					Common.showInfo(getContentPane(), "Rezerwacja", "Rezerwacja jest już anulowana");
+				//Common.showInfo(getContentPane(), "Rezerwacja", "Rezerwacja jest już anulowana");
+				
+				if (isCanceled) {
+					DbAdapterReservation.updateReservation(reservation.getId(), "1", "1");
+					Common.showInfo(getContentPane(), "Rezerwacja", "Przywrócono rezerwacje");
 				} else {
 					DbAdapterReservation.updateReservation(reservation.getId(), "0", "0");
 					Common.showInfo(getContentPane(), "Rezerwacja", "Anulowano rezerwacje");
+
 				}
 			}
 		});
@@ -107,12 +119,11 @@ public class Details extends JFrame {
 		btnCancel.setBounds(0, 9, 87, 21);
 		panel_4_1_1.add(btnCancel);
 
-		btnPaid = new JButton("ZAPŁACONO");
-		btnPaid.setBounds(132, 11, 167, 34);
-		panel_4_1_1.add(btnPaid);
-		btnPaid.setForeground(Color.BLACK);
-		btnPaid.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnPaid.setBackground(new Color(204, 0, 153));
+		String title = "Nie Zapłacono";
+		if (reservation.isAccepted() && reservation.isActive())
+		{
+			title = "ZAPŁACONO";
+		}
 
 		JPanel panel_4_1_2_1 = new JPanel();
 		panel_4_1_2_1.setLayout(null);
@@ -145,28 +156,41 @@ public class Details extends JFrame {
 		lbId.setBounds(125, 12, 133, 23);
 		panel_4_1_2_1_2.add(lbId);
 
-		if (Common.getUserFromContext().getUserRole().equals("administrator")) {
-			btnPaid.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (reservation.isAccepted() == true && reservation.isActive() == true) {
-						Common.showInfo(getContentPane(), "Rezerwacja", "Rezerwacja została już opłacona");
-					}
-					if (reservation.isAccepted() == false || reservation.isActive() == false) {
-						Common.showInfo(getContentPane(), "Rezerwacja", "Rezerwacja została już anulowana");
-					} else {
-						DbAdapterReservation.updateReservation(reservation.getId(), null, "1");
-						Common.showInfo(getContentPane(), "Rezerwacja", "Opłacono rezerwacje");
-					}
-				}
-			});
+//		if (Common.getUserFromContext().getUserRole().equals("administrator")) {
+//			btnPaid.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//					if (reservation.isAccepted() == true && reservation.isActive() == true) {
+//						Common.showInfo(getContentPane(), "Rezerwacja", "Rezerwacja została już opłacona");
+//					}
+//					if (reservation.isAccepted() == false || reservation.isActive() == false) {
+//						Common.showInfo(getContentPane(), "Rezerwacja", "Rezerwacja została już anulowana");
+//					} else {
+//						DbAdapterReservation.updateReservation(reservation.getId(), null, "1");
+//						Common.showInfo(getContentPane(), "Rezerwacja", "Opłacono rezerwacje");
+//					}
+//				}
+//			});
+//
+//		}
 
-		}
-
-		JLabel lblNewLabel_1_1_1_1_3 = new JLabel("Do zapłaty:");
+		JLabel lblNewLabel_1_1_1_1_3 = new JLabel("Cena biletu:");
 		lblNewLabel_1_1_1_1_3.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_1_1_1_1_3.setBounds(10, 394, 123, 23);
 		panel_1.add(lblNewLabel_1_1_1_1_3);
 
+		
+		
+		String title_price = "Nie Zapłacono";
+		if (reservation.isAccepted() && reservation.isActive())
+		{
+			title_price = "ZAPŁACONO";
+		}
+
+		JLabel paidLabel = new JLabel(title_price);
+		paidLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+		paidLabel.setBounds(10, 420, 171, 23);
+		panel_1.add(paidLabel);
+		
 		lbTotal = new JLabel("0");
 		lbTotal.setForeground(Color.RED);
 		lbTotal.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
@@ -179,8 +203,8 @@ public class Details extends JFrame {
 		lblNewLabel_1_1_1_1_2_1.setBounds(10, 45, 123, 23);
 		panel_1.add(lblNewLabel_1_1_1_1_2_1);
 
-		if (!Common.getUserFromContext().getUserRole().equals("administrator"))
-			btnPaid.setVisible(false);
+//		if (!Common.getUserFromContext().getUserRole().equals("administrator"))
+//			btnPaid.setVisible(false);
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(0, 0, 0));

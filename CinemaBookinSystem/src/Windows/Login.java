@@ -21,12 +21,23 @@ import Windows.User.Register;
 
 public class Login extends JFrame {
 	private JPanel contentPane;
-	private JTextField textFieldEmail;
-	private JTextField textFieldPassword;
+	private JTextField textFieldEmail, textFieldPassword;
 	public static User userContext;
 
 	public static void main(String[] args) {
+//uruchamiaja sie dwa okna, ktore wspoldziela watki
+		EventQueue.invokeLater(new Runnable() {
 
+			public void run() {
+				try {
+					Login frame = new Login();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
 		EventQueue.invokeLater(new Runnable() {
 
 			public void run() {
@@ -161,8 +172,8 @@ public class Login extends JFrame {
 
 //metoda ktora pozwala na utworzenie nowego pliku z bazą od podstaw - po uruchomieniu trzeba zakomentowac!
 	private static void CreateDatabaseAndUsers() {
-		
-		 /* DbAdapterHall.createTable();
+	/*
+	 DbAdapterHall.createTable();
 		  
 		  DbAdapterMovie.createTable();
 		  

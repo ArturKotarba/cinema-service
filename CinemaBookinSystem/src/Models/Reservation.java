@@ -6,14 +6,11 @@ private MovieScreening movieScreening;
 private User user;
 private boolean isAccepted;
 private int seatNumber;
-
 private boolean isActive;
-
-
-
+private String seats;
 
 public Reservation(int id, MovieScreening movieScreening, User user, boolean isAccepted, int seatNumber,
-		boolean isActive) {
+		boolean isActive, String seats) {
 	super();
 	this.id = id;
 	this.movieScreening = movieScreening;
@@ -21,6 +18,7 @@ public Reservation(int id, MovieScreening movieScreening, User user, boolean isA
 	this.isAccepted = isAccepted;
 	this.seatNumber = seatNumber;
 	this.isActive = isActive;
+	this.seats = seats;
 }
 public int getId() {
 	return id;
@@ -58,6 +56,10 @@ public boolean isActive() {
 public void setActive(boolean isActive) {
 	this.isActive = isActive;
 }
-
-
+public String getSeats() {
+	return seats;
+}
+public void setSeats(String seats) {
+	this.seats = seats;
+}
 }

@@ -3,6 +3,9 @@ package Windows;
 import java.awt.Container;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 import Database.DbAdapterHall;
 import Database.DbAdapterMovie;
@@ -103,6 +106,35 @@ public class Common {
 			return true;
 		}
 		return false;
+	}
+	
+	
+	public static String[] getNumbers() {
+		int n=70;
+		String[] numbers = new String[n];
+		for(int i=0;i<n; i++) {
+			numbers[i]=Integer.toString((i+1));
+		}
+		return numbers;
+	}
+	
+	public static ArrayList<Integer> getNumbers(String n) {
+		List<Integer> numbers = new ArrayList<Integer>();
+		String cur = "";
+		for (int i = 0; i < n.length(); i++) {
+
+			if (n.charAt(i) != '|') {
+				cur = cur + (String.valueOf(n.charAt(i)));
+
+			} else {
+				if (cur.equals(""))
+					break;
+				numbers.add(Integer.parseInt(cur));
+				cur = "";
+			}
+
+		}
+		return (ArrayList<Integer>) numbers;
 	}
 
 }

@@ -4,7 +4,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import Windows.Common;
+import Windows.Login;
+
 import java.awt.Color;
+import java.awt.EventQueue;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -13,6 +17,22 @@ import java.awt.event.ActionEvent;
 
 public class Main extends JFrame {
 	private JPanel contentPane;
+	
+	public static void main(String[] args) {
+
+		EventQueue.invokeLater(new Runnable() {
+
+			public void run() {
+				try {
+					Login frame = new Login();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 
 	public Main() {
 		setTitle("CinemaWorld");
@@ -30,21 +50,21 @@ public class Main extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 
-		JPanel panelCinema = new JPanel();
-		panelCinema.setBackground(new Color(0, 0, 0));
-		panelCinema.setBounds(10, 11, 356, 67);
-		panel.add(panelCinema);
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(0, 0, 0));
+		panel_2.setBounds(10, 11, 356, 67);
+		panel.add(panel_2);
 
-		JLabel lblNewLabel = new JLabel("Cinema");
+		JLabel lblNewLabel = new JLabel("CinemaWorld");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 50));
 		lblNewLabel.setForeground(new Color(204, 0, 153));
-		panelCinema.add(lblNewLabel);
+		panel_2.add(lblNewLabel);
 
-		JPanel panelButtons = new JPanel();
-		panelButtons.setBackground(Color.BLACK);
-		panelButtons.setBounds(10, 156, 356, 342);
-		panel.add(panelButtons);
-		panelButtons.setLayout(null);
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.BLACK);
+		panel_3.setBounds(10, 156, 356, 342);
+		panel.add(panel_3);
+		panel_3.setLayout(null);
 
 		JButton btnMyReservations = new JButton("MOJE REZERWACJE");
 		btnMyReservations.addActionListener(new ActionListener() {
@@ -60,7 +80,7 @@ public class Main extends JFrame {
 		btnMyReservations.setForeground(Color.BLACK);
 		btnMyReservations.setBackground(new Color(204, 0, 153));
 		btnMyReservations.setBounds(0, 102, 356, 45);
-		panelButtons.add(btnMyReservations);
+		panel_3.add(btnMyReservations);
 
 		JButton btnReserve = new JButton("REZERWUJ");
 		btnReserve.addActionListener(new ActionListener() {
@@ -75,16 +95,16 @@ public class Main extends JFrame {
 		btnReserve.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnReserve.setBackground(new Color(204, 0, 153));
 		btnReserve.setBounds(0, 263, 356, 45);
-		panelButtons.add(btnReserve);
+		panel_3.add(btnReserve);
 
 		JPanel panel_4_2 = new JPanel();
 		panel_4_2.setBackground(new Color(204, 0, 153));
 		panel_4_2.setBounds(0, 0, 356, 10);
-		panelButtons.add(panel_4_2);
+		panel_3.add(panel_4_2);
 
 		JPanel panel_4 = new JPanel();
 		panel_4.setBounds(0, 332, 356, 10);
-		panelButtons.add(panel_4);
+		panel_3.add(panel_4);
 		panel_4.setBackground(new Color(204, 0, 153));
 
 		JButton btnMovies = new JButton("FILMY");
@@ -101,7 +121,7 @@ public class Main extends JFrame {
 		btnMovies.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnMovies.setBackground(new Color(204, 0, 153));
 		btnMovies.setBounds(0, 46, 356, 45);
-		panelButtons.add(btnMovies);
+		panel_3.add(btnMovies);
 
 		JButton btnActiveMovieScreening = new JButton("REPERTUAR");
 		btnActiveMovieScreening.addActionListener(new ActionListener() {
@@ -116,6 +136,6 @@ public class Main extends JFrame {
 		btnActiveMovieScreening.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnActiveMovieScreening.setBackground(new Color(204, 0, 153));
 		btnActiveMovieScreening.setBounds(0, 158, 356, 45);
-		panelButtons.add(btnActiveMovieScreening);
+		panel_3.add(btnActiveMovieScreening);
 	}
 }

@@ -76,6 +76,9 @@ public class Create extends JFrame {
 		textFieldMaxCapacity.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldMaxCapacity.setColumns(10);
 		textFieldMaxCapacity.setBounds(126, 9, 235, 30);
+		textFieldMaxCapacity.setEditable(false);
+		textFieldMaxCapacity.setEnabled(false);
+		textFieldMaxCapacity.setText("70");
 		panel_4_1.add(textFieldMaxCapacity);
 
 		JPanel panel_4_1_1 = new JPanel();
@@ -91,8 +94,9 @@ public class Create extends JFrame {
 					Common.showInfo(getContentPane(), "Puste pola tekstowe", "Nie wypełniono wszystkich pól");
 				} else {
 
-					DbAdapterHall.insertHall(Integer.parseInt(textFieldHallNumber.getText().toString()),
-							Integer.parseInt(textFieldMaxCapacity.getText().toString()));
+					DbAdapterHall.insertHall(Integer.parseInt(textFieldMaxCapacity.getText().toString()),
+					Integer.parseInt(textFieldHallNumber.getText().toString())
+							);
 					Common.showInfo(getContentPane(), "Zapisano pomyślnie", "Sala została zapisana pomyślnie");
 				}
 			}
