@@ -156,14 +156,14 @@ public class Index extends JFrame {
 				if (table.getRowCount() > 0) {
 					int counter = 0;
 					for (int i = 0; i < table.getRowCount(); i++) {
-						Boolean checked = Boolean.valueOf(table.getValueAt(i, 5).toString());
+						Boolean checked = Boolean.valueOf(table.getValueAt(i, table.getColumnCount() - 1).toString());
 						String id = table.getValueAt(i, 0).toString();
 						if (checked) {
 							counter++;
 							boolean a = Common.canDeleteHall(getContentPane(), id);
 							if (a == true) {
 								model.removeRow(i);
-								getData();
+								//getData();
 								table.revalidate();
 							}
 							break;

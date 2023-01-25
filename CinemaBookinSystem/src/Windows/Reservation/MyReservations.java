@@ -77,19 +77,23 @@ public class MyReservations extends JFrame {
 
 	private void getData() {
 		ArrayList<Reservation> halls = DbAdapterReservation.selectMyReservations(Common.getUserFromContext().getId());
-		if (halls.size() > 0) {
-			for (int i = 0; i < halls.size(); i++) {
-				model.addRow(new Object[i]);
-				model.setValueAt(Integer.valueOf(halls.get(i).getId()), i, 0);
-				model.setValueAt(String.valueOf(halls.get(i).getMovieScreening().getId()
-						+ halls.get(i).getMovieScreening().getMovie().getTitle()), i, 1);
-				model.setValueAt(String.valueOf(halls.get(i).getUser().getEmail()), i, 2);
-				model.setValueAt(Integer.valueOf(halls.get(i).getSeatNumber()), i, 3);
-				model.setValueAt(Boolean.valueOf(!halls.get(i).isActive()), i, 4);
-				model.setValueAt(Boolean.valueOf(halls.get(i).isAccepted()), i, 5);
-				model.setValueAt(false, i, 6);
+		
+		if (halls.size() != model.getRowCount())
+		{			
+			if (halls.size() > 0) {
+				for (int i = 0; i < halls.size(); i++) {
+					model.addRow(new Object[i]);
+					model.setValueAt(Integer.valueOf(halls.get(i).getId()), i, 0);
+					model.setValueAt(String.valueOf(halls.get(i).getMovieScreening().getId()
+							+ halls.get(i).getMovieScreening().getMovie().getTitle()), i, 1);
+					model.setValueAt(String.valueOf(halls.get(i).getUser().getEmail()), i, 2);
+					model.setValueAt(Integer.valueOf(halls.get(i).getSeatNumber()), i, 3);
+					model.setValueAt(Boolean.valueOf(!halls.get(i).isActive()), i, 4);
+					model.setValueAt(Boolean.valueOf(halls.get(i).isAccepted()), i, 5);
+					model.setValueAt(false, i, 6);
+				}
 			}
-		}
+		}		
 	}
 
 

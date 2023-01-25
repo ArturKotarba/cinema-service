@@ -49,7 +49,7 @@ public class DbAdapterMovieScreening {
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:CinemaBookingSystem.sqlite");
 			c.setAutoCommit(false);
-			stmt = c.createStatement();
+			stmt = c.createStatement();					
 			String sql = "INSERT INTO MOVIE_SCREENING (MOVIE_ID," + " HALL_ID," + "START_DATE," + "PRICE,IS_ACTIVE) "
 					+ "VALUES( " + movieId + ", " + hallId + ", '" + startDate + "', " + price + ", 1);";
 			stmt.executeUpdate(sql);
@@ -60,7 +60,9 @@ public class DbAdapterMovieScreening {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
 		}
-	}	
+	}
+	
+	
 	public static ArrayList<MovieScreening> selectMovieScreenings2() {
 		ArrayList<MovieScreening> movieScreenings = new ArrayList<MovieScreening>();
 		Connection c = null;
@@ -166,7 +168,7 @@ public class DbAdapterMovieScreening {
 		return movieScreenings;
 	}
 
-	public static void updateMovieScreening(String id) {
+	public static void updateMovieScreening(String id, boolean stan) {
 		Connection c = null;
 		Statement stmt = null;
 		try {
@@ -174,7 +176,7 @@ public class DbAdapterMovieScreening {
 			c = DriverManager.getConnection("jdbc:sqlite:CinemaBookingSystem.sqlite");
 			c.setAutoCommit(false);
 			stmt = c.createStatement();
-			String sql = "UPDATE MOVIE_SCREENING  SET IS_ACTIVE = 0 where ID = " + id + " ;";
+			String sql = "UPDATE MOVIE_SCREENING  SET IS_ACTIVE =" + stan + " where ID = " + id + " ;";
 			stmt.executeUpdate(sql);
 			c.commit();
 			stmt.close();

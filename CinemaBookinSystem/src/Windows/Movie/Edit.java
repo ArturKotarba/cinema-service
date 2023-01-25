@@ -184,10 +184,21 @@ public class Edit extends JFrame {
 		JButton btnReturn = new JButton("WSTECZ");
 		btnReturn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				setVisible(false);
-				dispose();
-				Index frame = new Index();
-				frame.setVisible(true);
+				
+				if (Common.getUserFromContext().getUserRole().equals("administrator"))
+				{					
+					Windows.Movie.Index frame = new Windows.Movie.Index();
+					frame.setVisible(true);
+					setVisible(false);
+					dispose();
+				}
+				else
+				{
+					setVisible(false);
+					dispose();
+					Windows.Movie.ActiveMovies frame = new Windows.Movie.ActiveMovies();
+					frame.setVisible(true);					
+				}
 			}
 		});
 		btnReturn.setForeground(Color.BLACK);

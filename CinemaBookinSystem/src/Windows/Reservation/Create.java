@@ -69,8 +69,26 @@ private static String textFieldCached = "";
 		panel_4.add(lblNewLabel_1);
 
 		MovieScreening[] array = DbAdapterMovieScreening.selectMovieScreenings2().toArray(new MovieScreening[0]);
-
-		MovieScreeningComboBox myModel = new MovieScreeningComboBox(array);
+		
+		int count = 0;
+		for (int i = 0; i < array.length; i++)
+		{
+			if (array[i].isActive())
+				count++;
+		}
+		
+		MovieScreening[] arrayActive = new MovieScreening[count];
+		int j = 0;
+		for (int i = 0; i < array.length; i++)
+		{
+			if (array[i].isActive() && j < count)
+			{
+				arrayActive[j] = array[i];
+				j++;
+			}
+		}
+		
+		MovieScreeningComboBox myModel = new MovieScreeningComboBox(arrayActive);
 
 		comboBox = new JComboBox<>();
 		comboBox.setModel(myModel);
@@ -101,7 +119,7 @@ private static String textFieldCached = "";
 					if (freeSeats >= Integer.parseInt(textNumberOfTickets.getText())) {
 						textFieldCached = textField.getText();
 						String seats = textFieldCached;
-						DbAdapterReservation.insertReservation(1,
+						DbAdapterReservation.insertReservation(movie.getId(),
 						
 				Common.getUserFromContext().getId(),
 								Common.isSelected2(true), Integer.parseInt(textNumberOfTickets.getText()),

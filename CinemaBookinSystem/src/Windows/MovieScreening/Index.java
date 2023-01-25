@@ -134,6 +134,7 @@ public class Index extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Create frame = new Create();
 				frame.setVisible(true);
+				setVisible(false);
 			}
 		});
 		btnCreate.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -162,14 +163,47 @@ public class Index extends JFrame {
 				if (table.getRowCount() > 0) {
 					int counter = 0;
 					for (int i = 0; i < table.getRowCount(); i++) {
-						Boolean checked = Boolean.valueOf(table.getValueAt(i, 5).toString());
+						Boolean checked = Boolean.valueOf(table.getValueAt(i, table.getColumnCount() - 1).toString());
 						String id = table.getValueAt(i, 0).toString();
 						if (checked) {
 							counter++;
-							boolean a = Common.canDeleteMovieScreening(getContentPane(), id);
+							boolean a = Common.canDeleteMovieScreening(getContentPane(), id, false);
 							if (a == true) {
-								model.removeRow(i);
-								getData();
+								//model.removeRow(i);
+								//getData();
+								table.revalidate();
+							}
+							break;
+						}
+					}
+
+					if (counter == 0)
+						Common.showInfo(getContentPane(), "Nie wybrano elementu do dezaktywacji", "Nie wybrano");
+				}
+			}
+		});
+		btnUsu.setForeground(Color.BLACK);
+		btnUsu.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnUsu.setBackground(new Color(204, 0, 153));
+		btnUsu.setBounds(0, 54, 356, 45);
+		panel_3.add(btnUsu);
+		
+		
+
+		JButton btnAktyw = new JButton("ZMIEŃ NA AKTYWNY");
+		btnAktyw.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (table.getRowCount() > 0) {
+					int counter = 0;
+					for (int i = 0; i < table.getRowCount(); i++) {
+						Boolean checked = Boolean.valueOf(table.getValueAt(i, table.getColumnCount() - 1).toString());
+						String id = table.getValueAt(i, 0).toString();
+						if (checked) {
+							counter++;
+							boolean a = Common.canDeleteMovieScreening(getContentPane(), id, true);
+							if (a == true) {
+								//model.removeRow(i);
+								//getData();
 								table.revalidate();
 							}
 							break;
@@ -181,11 +215,13 @@ public class Index extends JFrame {
 				}
 			}
 		});
-		btnUsu.setForeground(Color.BLACK);
-		btnUsu.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnUsu.setBackground(new Color(204, 0, 153));
-		btnUsu.setBounds(0, 54, 356, 45);
-		panel_3.add(btnUsu);
+		btnAktyw.setForeground(Color.BLACK);
+		btnAktyw.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnAktyw.setBackground(new Color(204, 0, 153));
+		btnAktyw.setBounds(0, 120, 356, 45);
+		panel_3.add(btnAktyw);
+		
+		
 		generateGrid();
 	}
 }

@@ -86,12 +86,12 @@ public class Common {
 		return false;
 	}
 
-	public static boolean canDeleteMovieScreening(Container container, String id) {
-		Object[] options = { "Nie", "Tak, usuń" };
-		int answer = JOptionPane.showOptionDialog(container, "Czy zmienic na nieaktywny?", "Modyfikacja",
+	public static boolean canDeleteMovieScreening(Container container, String id, boolean stan) {
+		Object[] options = { "Nie", "Tak, zmień" };
+		int answer = JOptionPane.showOptionDialog(container, !stan ? "Czy zmienic na nieaktywny?" : "Czy zmienic na aktywny?", "Modyfikacja",
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		if (answer == 1) {
-			DbAdapterMovieScreening.updateMovieScreening(id);
+			DbAdapterMovieScreening.updateMovieScreening(id, stan);
 			return true;
 		}
 		return false;
